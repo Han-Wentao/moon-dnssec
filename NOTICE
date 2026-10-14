@@ -1,0 +1,13 @@
+MoonDNSSEC
+Copyright 2026 Han-Wentao
+Licensed under the Apache License, Version 2.0.
+
+This package imports MoonCrypt 0.3.1 (moonbitstack/mooncrypt),
+Copyright 2026 Leo Cheng, Apache-2.0, and MoonZoneGuard 0.3.0
+(geniuszby/moonzoneguard), Apache-2.0. Their implementations are
+not copied into this package; their upstream notices and licenses
+remain applicable to their separately distributed source packages.
+
+DNSSEC behavior follows IETF specifications. Independent public-only
+fixtures were generated using Node.js/OpenSSL. AI assistance is
+explicitly disclosed in README.md and docs/provenance.md.
