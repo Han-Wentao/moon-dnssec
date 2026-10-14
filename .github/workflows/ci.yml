@@ -1,0 +1,58 @@
+name: DNSSEC verification
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  targets:
+    name: Check build test (${{ matrix.target }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [wasm-gc, wasm, js, native]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install official MoonBit
+        run: |
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh -o /tmp/install-moon.sh
+          bash /tmp/install-moon.sh
+          echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
+      - name: Record toolchain
+        run: moon version --all
+      - name: Check
+        run: moon check --target "${{ matrix.target }}" --deny-warn
+      - name: Build
+        run: moon build --target "${{ matrix.target }}" --deny-warn
+      - name: Test
+        if: matrix.target != 'wasm'
+        run: moon test --target "${{ matrix.target }}" --deny-warn
+      - name: Run external API example
+        if: matrix.target != 'wasm'
+        run: moon run --target "${{ matrix.target }}" examples/offline
+  interfaces:
+    name: Interfaces format and trust encapsulation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install official MoonBit
+        run: |
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh -o /tmp/install-moon.sh
+          bash /tmp/install-moon.sh
+          echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
+      - name: Record toolchain
+        run: moon version --all
+      - name: Check generated public interface
+        run: |
+          moon info
+          git diff --exit-code -- '*.mbti'
+          moon fmt --check
+      - name: Reject four external trust forgery attempts
+        run: python3 scripts/check_encapsulation.py
+      - name: Coverage diagnostic
+        run: moon coverage analyze > coverage.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coverage-diagnostic
+          path: coverage.txt
