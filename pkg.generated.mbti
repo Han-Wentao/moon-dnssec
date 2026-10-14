@@ -1,0 +1,249 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "Han-Wentao/moon-dnssec"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn anchor_keys(Name, Dnskey, Array[Record], Array[Rrsig], TimePolicy, Limits) -> Result[TrustedKeys, DnsError]
+
+pub fn authenticate_rrset(Array[Record], Array[Rrsig], TrustedKeys, TimePolicy, Limits) -> Result[AuthenticatedSet, DnsError]
+
+pub fn authenticate_with_key(Array[Record], Array[Rrsig], Name, Dnskey, TimePolicy, Limits) -> Result[AuthenticatedSet, DnsError]
+
+pub fn decode_nsec3_label(Bytes) -> Result[Bytes, DnsError]
+
+pub fn delegate_keys(TrustedKeys, Name, Array[Record], Array[Rrsig], Array[Record], Array[Rrsig], TimePolicy, Limits) -> Result[TrustedKeys, DnsError]
+
+pub fn nsec3_hash(Name, Bytes, Int, Limits) -> Result[Bytes, DnsError]
+
+pub fn nsec3_label(Bytes) -> Result[String, DnsError]
+
+pub fn nsec3_nodata(AuthenticatedSet, Name, Name, Int, UInt, Limits) -> Result[Denial, DnsError]
+
+pub fn nsec3_nxdomain(Array[AuthenticatedSet], Name, Name, UInt, Limits) -> Result[Denial, DnsError]
+
+pub fn nsec_nodata(AuthenticatedSet, Name, Name, Int, UInt) -> Result[Denial, DnsError]
+
+pub fn nsec_nxdomain(Array[AuthenticatedSet], Name, Name, UInt, Limits) -> Result[Denial, DnsError]
+
+pub fn signing_input(Array[Record], Rrsig, Limits) -> Result[Bytes, DnsError]
+
+pub fn supported_algorithm(Int) -> Bool
+
+pub fn verify_signature(Dnskey, Bytes, Bytes) -> Result[Bool, DnsError]
+
+// Errors
+
+// Types and methods
+pub struct AuthenticatedSet {
+  records : Array[Record]
+  zone : Name
+  verified_at : UInt
+  lifetime : UInt
+  wildcard : Bool
+} derive(@debug.Debug)
+pub fn AuthenticatedSet::cache_records(Self, UInt) -> Result[Array[Record], DnsError]
+pub fn AuthenticatedSet::denial_record(Self, Name, Int, UInt) -> Result[Record, DnsError]
+pub fn AuthenticatedSet::is_wildcard_expansion(Self) -> Bool
+pub fn AuthenticatedSet::lifetime(Self) -> UInt
+pub fn AuthenticatedSet::owner(Self) -> Name
+pub fn AuthenticatedSet::records(Self) -> Array[Record]
+pub fn AuthenticatedSet::remaining(Self, UInt) -> Result[UInt, DnsError]
+pub fn AuthenticatedSet::rrtype(Self) -> Int
+pub fn AuthenticatedSet::to_repr(Self) -> @debug.Repr
+pub fn AuthenticatedSet::zone(Self) -> Name
+
+pub struct Denial {
+  kind : DenialKind
+  lifetime : UInt
+} derive(@debug.Debug)
+pub fn Denial::kind(Self) -> DenialKind
+pub fn Denial::lifetime(Self) -> UInt
+pub fn Denial::to_repr(Self) -> @debug.Repr
+pub fn Denial::verdict(Self) -> Verdict
+
+pub(all) enum DenialKind {
+  NoData
+  NxDomain
+  InsecureDelegation
+} derive(Eq, @debug.Debug)
+pub fn DenialKind::equal(Self, Self) -> Bool
+pub fn DenialKind::not_equal(Self, Self) -> Bool
+pub fn DenialKind::to_repr(Self) -> @debug.Repr
+
+pub(all) enum DnsError {
+  Malformed(String)
+  ResourceLimit(String)
+  Unsupported(String)
+  Bogus(String)
+  Indeterminate(String)
+  Stale(String)
+} derive(Eq, @debug.Debug)
+pub fn DnsError::equal(Self, Self) -> Bool
+pub fn DnsError::not_equal(Self, Self) -> Bool
+pub fn DnsError::to_repr(Self) -> @debug.Repr
+pub fn DnsError::verdict(Self) -> Verdict
+
+pub struct Dnskey {
+  flags : Int
+  algorithm : Int
+  data : Bytes
+} derive(Eq, @debug.Debug)
+pub fn Dnskey::algorithm(Self) -> Int
+pub fn Dnskey::equal(Self, Self) -> Bool
+pub fn Dnskey::is_sep(Self) -> Bool
+pub fn Dnskey::key_tag(Self, Name) -> Result[Int, DnsError]
+pub fn Dnskey::not_equal(Self, Self) -> Bool
+pub fn Dnskey::parse(Bytes) -> Result[Self, DnsError]
+pub fn Dnskey::rdata(Self) -> Bytes
+pub fn Dnskey::to_repr(Self) -> @debug.Repr
+
+pub struct Ds {
+  key_tag : Int
+  algorithm : Int
+  digest_type : Int
+  digest : Bytes
+} derive(Eq, @debug.Debug)
+pub fn Ds::digest_type(Self) -> Int
+pub fn Ds::equal(Self, Self) -> Bool
+pub fn Ds::matches(Self, Name, Dnskey) -> Result[Bool, DnsError]
+pub fn Ds::not_equal(Self, Self) -> Bool
+pub fn Ds::parse(Bytes) -> Result[Self, DnsError]
+pub fn Ds::rdata(Self) -> Bytes
+pub fn Ds::to_repr(Self) -> @debug.Repr
+
+pub(all) struct Limits {
+  max_records : Int
+  max_signed_bytes : Int
+  max_signatures : Int
+  max_proofs : Int
+  max_chain : Int
+  max_nsec3_iterations : Int
+} derive(Eq, @debug.Debug)
+pub fn Limits::default() -> Self
+pub fn Limits::equal(Self, Self) -> Bool
+pub fn Limits::not_equal(Self, Self) -> Bool
+pub fn Limits::to_repr(Self) -> @debug.Repr
+pub fn Limits::validate(Self) -> Result[Unit, DnsError]
+
+pub struct Name {
+  labels : Array[Bytes]
+} derive(Eq, @debug.Debug)
+pub fn Name::canonical_compare(Self, Self) -> Int
+pub fn Name::equal(Self, Self) -> Bool
+pub fn Name::from_wire(Bytes) -> Result[Self, DnsError]
+pub fn Name::host_text(Self) -> Result[String, DnsError]
+pub fn Name::is_subdomain(Self, Self) -> Bool
+pub fn Name::label_count(Self) -> Int
+pub fn Name::not_equal(Self, Self) -> Bool
+pub fn Name::parent(Self) -> Self?
+pub fn Name::parse(String) -> Result[Self, DnsError]
+pub fn Name::signed_owner(Self, Int) -> Result[Self, DnsError]
+pub fn Name::to_repr(Self) -> @debug.Repr
+pub fn Name::wire(Self) -> Bytes
+
+pub struct Nsec {
+  owner : Name
+  next : Name
+  bitmap : TypeBitmap
+} derive(@debug.Debug)
+pub fn Nsec::covers(Self, Name) -> Bool
+pub fn Nsec::parse(Record) -> Result[Self, DnsError]
+pub fn Nsec::to_repr(Self) -> @debug.Repr
+
+pub struct Nsec3 {
+  owner_hash : Bytes
+  next_hash : Bytes
+  salt : Bytes
+  iterations : Int
+  opt_out : Bool
+  bitmap : TypeBitmap
+} derive(@debug.Debug)
+pub fn Nsec3::covers_hash(Self, Bytes) -> Bool
+pub fn Nsec3::parse(Record, Name, Limits) -> Result[Self, DnsError]
+pub fn Nsec3::to_repr(Self) -> @debug.Repr
+
+pub struct Record {
+  owner : Name
+  rrtype : Int
+  ttl : UInt
+  data : Bytes
+} derive(Eq, @debug.Debug)
+pub fn Record::canonical_rdata(Self) -> Result[Bytes, DnsError]
+pub fn Record::equal(Self, Self) -> Bool
+pub fn Record::new(Name, Int, UInt, Bytes) -> Result[Self, DnsError]
+pub fn Record::not_equal(Self, Self) -> Bool
+pub fn Record::owner(Self) -> Name
+pub fn Record::rdata(Self) -> Bytes
+pub fn Record::rrtype(Self) -> Int
+pub fn Record::to_repr(Self) -> @debug.Repr
+pub fn Record::ttl(Self) -> UInt
+
+pub struct Rrsig {
+  covered : Int
+  algorithm : Int
+  labels : Int
+  original_ttl : UInt
+  expiration : UInt
+  inception : UInt
+  key_tag : Int
+  signer : Name
+  signature : Bytes
+} derive(Eq, @debug.Debug)
+pub fn Rrsig::covered_type(Self) -> Int
+pub fn Rrsig::equal(Self, Self) -> Bool
+pub fn Rrsig::not_equal(Self, Self) -> Bool
+pub fn Rrsig::parse(Bytes) -> Result[Self, DnsError]
+pub fn Rrsig::rdata(Self) -> Bytes
+pub fn Rrsig::remaining(Self, TimePolicy) -> Result[UInt, DnsError]
+pub fn Rrsig::signer(Self) -> Name
+pub fn Rrsig::to_repr(Self) -> @debug.Repr
+
+pub(all) struct TimePolicy {
+  now : UInt
+  skew : UInt
+} derive(Eq, @debug.Debug)
+pub fn TimePolicy::at(UInt) -> Self
+pub fn TimePolicy::equal(Self, Self) -> Bool
+pub fn TimePolicy::not_equal(Self, Self) -> Bool
+pub fn TimePolicy::to_repr(Self) -> @debug.Repr
+pub fn TimePolicy::validate(Self) -> Result[Unit, DnsError]
+
+pub struct TrustedKeys {
+  zone : Name
+  keys : Array[Dnskey]
+  verified_at : UInt
+  lifetime : UInt
+  depth : Int
+} derive(@debug.Debug)
+pub fn TrustedKeys::depth(Self) -> Int
+pub fn TrustedKeys::remaining(Self, UInt) -> Result[UInt, DnsError]
+pub fn TrustedKeys::to_repr(Self) -> @debug.Repr
+pub fn TrustedKeys::zone(Self) -> Name
+
+pub struct TypeBitmap {
+  types : Array[Int]
+} derive(Eq, @debug.Debug)
+pub fn TypeBitmap::contains(Self, Int) -> Bool
+pub fn TypeBitmap::encode(Self) -> Bytes
+pub fn TypeBitmap::equal(Self, Self) -> Bool
+pub fn TypeBitmap::not_equal(Self, Self) -> Bool
+pub fn TypeBitmap::parse(Bytes) -> Result[Self, DnsError]
+pub fn TypeBitmap::to_repr(Self) -> @debug.Repr
+pub fn TypeBitmap::types(Self) -> Array[Int]
+
+pub(all) enum Verdict {
+  Secure
+  Insecure
+  Bogus
+  Indeterminate
+} derive(Eq, @debug.Debug)
+pub fn Verdict::equal(Self, Self) -> Bool
+pub fn Verdict::not_equal(Self, Self) -> Bool
+pub fn Verdict::to_repr(Self) -> @debug.Repr
+
+// Type aliases
+
+// Traits
