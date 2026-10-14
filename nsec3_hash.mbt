@@ -3,7 +3,7 @@
 pub fn nsec3_hash(
   name : Name,
   salt : Bytes,
-  iterations : Int,
+  iterations : Int32,
   limits : Limits,
 ) -> Result[Bytes, DnsError] {
   match limits.validate() {

@@ -4,8 +4,8 @@
 pub struct AuthenticatedSet {
   priv records : Array[Record]
   priv zone : Name
-  priv verified_at : UInt
-  priv lifetime : UInt
+  priv verified_at : UInt32
+  priv lifetime : UInt32
   priv wildcard : Bool
 } derive(Debug)
 
@@ -23,7 +23,7 @@ pub fn AuthenticatedSet::owner(self : AuthenticatedSet) -> Name {
 }
 
 ///|
-pub fn AuthenticatedSet::rrtype(self : AuthenticatedSet) -> Int {
+pub fn AuthenticatedSet::rrtype(self : AuthenticatedSet) -> Int32 {
   self.records[0].rrtype
 }
 
@@ -33,7 +33,7 @@ pub fn AuthenticatedSet::zone(self : AuthenticatedSet) -> Name {
 }
 
 ///|
-pub fn AuthenticatedSet::lifetime(self : AuthenticatedSet) -> UInt {
+pub fn AuthenticatedSet::lifetime(self : AuthenticatedSet) -> UInt32 {
   self.lifetime
 }
 

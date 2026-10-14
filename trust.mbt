@@ -3,9 +3,9 @@
 pub struct TrustedKeys {
   priv zone : Name
   priv keys : Array[Dnskey]
-  priv verified_at : UInt
-  priv lifetime : UInt
-  priv depth : Int
+  priv verified_at : UInt32
+  priv lifetime : UInt32
+  priv depth : Int32
 } derive(Debug)
 
 ///|
@@ -17,15 +17,15 @@ pub fn TrustedKeys::zone(self : TrustedKeys) -> Name {
 }
 
 ///|
-pub fn TrustedKeys::depth(self : TrustedKeys) -> Int {
+pub fn TrustedKeys::depth(self : TrustedKeys) -> Int32 {
   self.depth
 }
 
 ///|
 pub fn TrustedKeys::remaining(
   self : TrustedKeys,
-  now : UInt,
-) -> Result[UInt, DnsError] {
+  now : UInt32,
+) -> Result[UInt32, DnsError] {
   let elapsed = now - self.verified_at
   if elapsed >= self.lifetime {
     Err(Stale("trusted key set expired or clock moved backwards"))

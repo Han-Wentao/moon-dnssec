@@ -14,7 +14,7 @@ pub extend DenialKind with @debug.Debug::{to_repr}
 ///|
 pub struct Denial {
   priv kind : DenialKind
-  priv lifetime : UInt
+  priv lifetime : UInt32
 } derive(Debug)
 
 ///|
@@ -26,7 +26,7 @@ pub fn Denial::kind(self : Denial) -> DenialKind {
 }
 
 ///|
-pub fn Denial::lifetime(self : Denial) -> UInt {
+pub fn Denial::lifetime(self : Denial) -> UInt32 {
   self.lifetime
 }
 
@@ -85,7 +85,7 @@ pub fn Nsec::covers(self : Nsec, name : Name) -> Bool {
 fn valid_query(
   zone : Name,
   name : Name,
-  rrtype : Int,
+  rrtype : Int32,
 ) -> Result[Unit, DnsError] {
   if !name.is_subdomain(zone) {
     return Err(Bogus("query outside proof zone"))
@@ -102,7 +102,7 @@ fn valid_query(
 ///|
 fn absence_kind(
   bitmap : TypeBitmap,
-  rrtype : Int,
+  rrtype : Int32,
   at_apex : Bool,
 ) -> Result[DenialKind, DnsError] {
   if bitmap.contains(rrtype) || bitmap.contains(5) {
@@ -130,8 +130,8 @@ pub fn nsec_nodata(
   proof : AuthenticatedSet,
   zone : Name,
   name : Name,
-  rrtype : Int,
-  now : UInt,
+  rrtype : Int32,
+  now : UInt32,
 ) -> Result[Denial, DnsError] {
   match valid_query(zone, name, rrtype) {
     Ok(_) => ()

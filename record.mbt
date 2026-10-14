@@ -2,8 +2,8 @@
 /// A caller-supplied resource record, never a compressed DNS message fragment.
 pub struct Record {
   priv owner : Name
-  priv rrtype : Int
-  priv ttl : UInt
+  priv rrtype : Int32
+  priv ttl : UInt32
   priv data : Bytes
 } derive(Eq, Debug)
 
@@ -16,8 +16,8 @@ pub extend Record with @debug.Debug::{to_repr}
 ///|
 pub fn Record::new(
   owner : Name,
-  rrtype : Int,
-  ttl : UInt,
+  rrtype : Int32,
+  ttl : UInt32,
   data : Bytes,
 ) -> Result[Record, DnsError] {
   if rrtype < 1 || rrtype > 65535 || rrtype == 41 || rrtype == 255 {
@@ -38,7 +38,7 @@ pub fn Record::owner(self : Record) -> Name {
 }
 
 ///|
-pub fn Record::rrtype(self : Record) -> Int {
+pub fn Record::rrtype(self : Record) -> Int32 {
   self.rrtype
 }
 
@@ -48,7 +48,7 @@ pub fn Record::rdata(self : Record) -> Bytes {
 }
 
 ///|
-pub fn Record::ttl(self : Record) -> UInt {
+pub fn Record::ttl(self : Record) -> UInt32 {
   self.ttl
 }
 

@@ -49,7 +49,7 @@ fn key_fingerprint(
 }
 
 ///|
-pub fn Dnskey::key_tag(self : Dnskey, owner : Name) -> Result[Int, DnsError] {
+pub fn Dnskey::key_tag(self : Dnskey, owner : Name) -> Result[Int32, DnsError] {
   match key_fingerprint(owner, self) {
     Ok(f) => Ok(f.key_tag)
     Err(e) => Err(e)

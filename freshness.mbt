@@ -2,8 +2,8 @@
 /// TTL cache freshness uses serial elapsed time, rejecting backwards clock changes.
 pub fn AuthenticatedSet::remaining(
   self : AuthenticatedSet,
-  now : UInt,
-) -> Result[UInt, DnsError] {
+  now : UInt32,
+) -> Result[UInt32, DnsError] {
   let elapsed = now - self.verified_at
   if elapsed >= self.lifetime {
     Err(Stale("authenticated RRset expired or clock moved backwards"))
@@ -17,7 +17,7 @@ pub fn AuthenticatedSet::remaining(
 /// This does not create a new trust assertion or extend signature lifetime.
 pub fn AuthenticatedSet::cache_records(
   self : AuthenticatedSet,
-  now : UInt,
+  now : UInt32,
 ) -> Result[Array[Record], DnsError] {
   let ttl = match self.remaining(now) {
     Ok(n) => n
@@ -39,8 +39,8 @@ pub fn AuthenticatedSet::is_wildcard_expansion(self : AuthenticatedSet) -> Bool 
 fn ensure_proof(
   set : AuthenticatedSet,
   zone : Name,
-  rrtype : Int,
-  now : UInt,
+  rrtype : Int32,
+  now : UInt32,
 ) -> Result[Record, DnsError] {
   match set.remaining(now) {
     Ok(_) => ()
@@ -65,8 +65,8 @@ fn ensure_proof(
 pub fn AuthenticatedSet::denial_record(
   self : AuthenticatedSet,
   zone : Name,
-  rrtype : Int,
-  now : UInt,
+  rrtype : Int32,
+  now : UInt32,
 ) -> Result[Record, DnsError] {
   if rrtype != 47 && rrtype != 50 {
     return Err(Malformed("expected NSEC or NSEC3 type"))

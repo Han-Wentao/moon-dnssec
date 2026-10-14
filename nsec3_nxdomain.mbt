@@ -5,7 +5,7 @@ pub fn nsec3_nxdomain(
   proofs : Array[AuthenticatedSet],
   zone : Name,
   name : Name,
-  now : UInt,
+  now : UInt32,
   limits : Limits,
 ) -> Result[Denial, DnsError] {
   match limits.validate() {
@@ -25,7 +25,7 @@ pub fn nsec3_nxdomain(
   if proofs.is_empty() || proofs.length() > limits.max_proofs {
     return Err(ResourceLimit("NSEC3 proof count"))
   }
-  let decoded : Array[(Nsec3, UInt)] = []
+  let decoded : Array[(Nsec3, UInt32)] = []
   for proof in proofs {
     let rr = match ensure_proof(proof, zone, 50, now) {
       Ok(r) => r
@@ -107,8 +107,8 @@ pub fn nsec3_nxdomain(
     Ok(b) => b
     Err(e) => return Err(e)
   }
-  let mut next_ttl : UInt? = None
-  let mut wildcard_ttl : UInt? = None
+  let mut next_ttl : UInt32? = None
+  let mut wildcard_ttl : UInt32? = None
   let mut opt_out = false
   for entry in decoded {
     let n = entry.0

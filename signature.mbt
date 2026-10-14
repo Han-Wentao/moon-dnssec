@@ -1,12 +1,12 @@
 ///|
 pub struct Rrsig {
-  priv covered : Int
-  priv algorithm : Int
-  priv labels : Int
-  priv original_ttl : UInt
-  priv expiration : UInt
-  priv inception : UInt
-  priv key_tag : Int
+  priv covered : Int32
+  priv algorithm : Int32
+  priv labels : Int32
+  priv original_ttl : UInt32
+  priv expiration : UInt32
+  priv inception : UInt32
+  priv key_tag : Int32
   priv signer : Name
   priv signature : Bytes
 } derive(Eq, Debug)
@@ -48,7 +48,7 @@ pub fn Rrsig::signer(self : Rrsig) -> Name {
 }
 
 ///|
-pub fn Rrsig::covered_type(self : Rrsig) -> Int {
+pub fn Rrsig::covered_type(self : Rrsig) -> Int32 {
   self.covered
 }
 
@@ -57,7 +57,7 @@ pub fn Rrsig::covered_type(self : Rrsig) -> Int {
 pub fn Rrsig::remaining(
   self : Rrsig,
   time : TimePolicy,
-) -> Result[UInt, DnsError] {
+) -> Result[UInt32, DnsError] {
   match time.validate() {
     Err(e) => return Err(e)
     Ok(_) => ()
@@ -104,7 +104,7 @@ pub fn Rrsig::rdata(self : Rrsig) -> Bytes {
 }
 
 ///|
-fn u32_at(data : Bytes, p : Int) -> UInt {
+fn u32_at(data : Bytes, p : Int32) -> UInt32 {
   (data[p].to_uint() << 24) |
   (data[p + 1].to_uint() << 16) |
   (data[p + 2].to_uint() << 8) |
@@ -112,7 +112,7 @@ fn u32_at(data : Bytes, p : Int) -> UInt {
 }
 
 ///|
-fn append32(out : Array[Byte], n : UInt) -> Unit {
+fn append32(out : Array[Byte], n : UInt32) -> Unit {
   out.push((n >> 24).to_byte())
   out.push((n >> 16).to_byte())
   out.push((n >> 8).to_byte())

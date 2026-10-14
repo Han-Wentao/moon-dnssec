@@ -5,7 +5,7 @@ pub fn nsec_nxdomain(
   proofs : Array[AuthenticatedSet],
   zone : Name,
   name : Name,
-  now : UInt,
+  now : UInt32,
   limits : Limits,
 ) -> Result[Denial, DnsError] {
   match limits.validate() {
@@ -25,7 +25,7 @@ pub fn nsec_nxdomain(
   if proofs.is_empty() || proofs.length() > limits.max_proofs {
     return Err(ResourceLimit("NSEC proof count"))
   }
-  let decoded : Array[(Nsec, UInt)] = []
+  let decoded : Array[(Nsec, UInt32)] = []
   for proof in proofs {
     let rr = match ensure_proof(proof, zone, 47, now) {
       Ok(r) => r
@@ -86,8 +86,8 @@ pub fn nsec_nxdomain(
     Ok(n) => n
     Err(e) => return Err(e)
   }
-  let mut next_ttl : UInt? = None
-  let mut wildcard_ttl : UInt? = None
+  let mut next_ttl : UInt32? = None
+  let mut wildcard_ttl : UInt32? = None
   for entry in decoded {
     if entry.0.owner == wildcard {
       return Err(Bogus("closest-encloser wildcard exists"))
@@ -123,7 +123,7 @@ fn next_closer(name : Name, closest : Name) -> Result[Name, DnsError] {
 }
 
 ///|
-fn min_ttl(a : UInt, b : UInt) -> UInt {
+fn min_ttl(a : UInt32, b : UInt32) -> UInt32 {
   if a < b {
     a
   } else {

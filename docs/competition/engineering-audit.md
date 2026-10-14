@@ -4,13 +4,13 @@ Audit: 2026-10-14; module Han-Wentao/moon-dnssec 0.1.0.
 
 ## Substantive scope
 
-Run `python scripts/audit_scope.py`. Root production .mbt files only; excludes tests, examples, interfaces, dependencies, generated build artifacts and docs. 18 production files: **2114 physical lines; 1837 nonblank/noncomment lines**. Stricter latter measure exceeds 1500 without fixtures or padding.
+Run `python scripts/audit_scope.py`. Root production .mbt files only; excludes tests, examples, interfaces, dependencies, generated build artifacts and docs. 18 production files: **2117 physical lines; 1840 nonblank/noncomment lines**. Stricter latter measure exceeds 1500 without fixtures or padding.
 
 ## Actual local verification
 
 moon info then moon fmt and moon fmt --check passed; .mbti private-field changes reviewed. Strict --deny-warn check/build passed JS, wasm-gc and plain wasm. 36 named tests passed JS and wasm-gc (same suite, not 72 distinct tests). Both runnable targets printed TTL=40, canonical bytes=66, Secure supported NSEC/NSEC3 NXDOMAIN. Four external compiler construction/mutation attacks were rejected. Local native untested; Linux CI must establish it. Plain wasm compile-only. No benchmark or full-coverage claim.
 
-Windows toolchain: moon 0.1.20260920 (914d7da), moonc 0.10.14+7d59c7ec9-dev. CI records the current official installer version and is unpinned; see docs/ci.md. This local report is not proof of remote CI success.
+Initial Windows toolchain: moon 0.1.20260920 (914d7da), moonc 0.10.14+7d59c7ec9-dev. Final Windows verification: isolated official stable moon 0.1.20261012 (748b63c), moonc 0.10.15+943464bfa. The stable formatter spells annotations Int32/UInt32, without changing the public generated interface; this real CI failure was repaired rather than bypassing the format gate. Coverage diagnostic reports 160 uncovered lines in 19 files. CI records the current official installer version and is unpinned; see docs/ci.md. This local report is not proof of remote CI success.
 
 ## Conservative commit review
 

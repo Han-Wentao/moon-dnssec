@@ -28,12 +28,12 @@ pub fn DnsError::verdict(self : DnsError) -> Verdict {
 ///|
 /// Limits are checked before allocation, quadratic sorting or signature work.
 pub(all) struct Limits {
-  max_records : Int
-  max_signed_bytes : Int
-  max_signatures : Int
-  max_proofs : Int
-  max_chain : Int
-  max_nsec3_iterations : Int
+  max_records : Int32
+  max_signed_bytes : Int32
+  max_signatures : Int32
+  max_proofs : Int32
+  max_chain : Int32
+  max_nsec3_iterations : Int32
 } derive(Eq, Debug)
 
 ///|
@@ -73,12 +73,12 @@ pub fn Limits::validate(self : Limits) -> Result[Unit, DnsError] {
 
 ///|
 pub(all) struct TimePolicy {
-  now : UInt
-  skew : UInt
+  now : UInt32
+  skew : UInt32
 } derive(Eq, Debug)
 
 ///|
-pub fn TimePolicy::at(now : UInt) -> TimePolicy {
+pub fn TimePolicy::at(now : UInt32) -> TimePolicy {
   { now, skew: 0U, }
 }
 

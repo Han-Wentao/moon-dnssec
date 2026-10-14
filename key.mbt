@@ -1,7 +1,7 @@
 ///|
 pub struct Dnskey {
-  priv flags : Int
-  priv algorithm : Int
+  priv flags : Int32
+  priv algorithm : Int32
   priv data : Bytes
 } derive(Eq, Debug)
 
@@ -35,7 +35,7 @@ pub fn Dnskey::rdata(self : Dnskey) -> Bytes {
 }
 
 ///|
-pub fn Dnskey::algorithm(self : Dnskey) -> Int {
+pub fn Dnskey::algorithm(self : Dnskey) -> Int32 {
   self.algorithm
 }
 
@@ -46,9 +46,9 @@ pub fn Dnskey::is_sep(self : Dnskey) -> Bool {
 
 ///|
 pub struct Ds {
-  priv key_tag : Int
-  priv algorithm : Int
-  priv digest_type : Int
+  priv key_tag : Int32
+  priv algorithm : Int32
+  priv digest_type : Int32
   priv digest : Bytes
 } derive(Eq, Debug)
 
@@ -85,17 +85,17 @@ pub fn Ds::parse(data : Bytes) -> Result[Ds, DnsError] {
 }
 
 ///|
-pub fn Ds::digest_type(self : Ds) -> Int {
+pub fn Ds::digest_type(self : Ds) -> Int32 {
   self.digest_type
 }
 
 ///|
-fn u16_at(data : Bytes, p : Int) -> Int {
+fn u16_at(data : Bytes, p : Int32) -> Int32 {
   (data[p].to_int() << 8) | data[p + 1].to_int()
 }
 
 ///|
-fn append16(out : Array[Byte], n : Int) -> Unit {
+fn append16(out : Array[Byte], n : Int32) -> Unit {
   out.push((n >> 8).to_byte())
   out.push(n.to_byte())
 }
@@ -119,7 +119,7 @@ pub fn Ds::rdata(self : Ds) -> Bytes {
 
 ///|
 /// Explicitly supported signing algorithms; legacy RSA/SHA1 is not enabled.
-pub fn supported_algorithm(algorithm : Int) -> Bool {
+pub fn supported_algorithm(algorithm : Int32) -> Bool {
   algorithm == 8 ||
   algorithm == 10 ||
   algorithm == 13 ||

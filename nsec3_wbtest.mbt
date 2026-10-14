@@ -2,7 +2,7 @@
 fn wb_nsec3(
   name : Name,
   zone : Name,
-  flags : Int,
+  flags : Int32,
   bitmap : Bytes,
 ) -> AuthenticatedSet {
   let hash = nsec3_hash(name, b"", 0, Limits::default()).unwrap()

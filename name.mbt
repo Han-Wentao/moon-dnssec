@@ -44,7 +44,7 @@ pub fn Name::parse(text : String) -> Result[Name, DnsError] {
 }
 
 ///|
-fn read_name(data : Bytes, start : Int) -> Result[(Name, Int), DnsError] {
+fn read_name(data : Bytes, start : Int32) -> Result[(Name, Int32), DnsError] {
   if start < 0 || start >= data.length() {
     return Err(Malformed("missing name"))
   }
@@ -103,7 +103,7 @@ pub fn Name::wire(self : Name) -> Bytes {
 }
 
 ///|
-pub fn Name::label_count(self : Name) -> Int {
+pub fn Name::label_count(self : Name) -> Int32 {
   self.labels.length()
 }
 
@@ -123,7 +123,7 @@ pub fn Name::is_subdomain(self : Name, zone : Name) -> Bool {
 
 ///|
 /// RFC4034 rightmost-label order, not presentation string order.
-pub fn Name::canonical_compare(self : Name, other : Name) -> Int {
+pub fn Name::canonical_compare(self : Name, other : Name) -> Int32 {
   let mut a = self.labels.length() - 1
   let mut b = other.labels.length() - 1
   while a >= 0 && b >= 0 {
@@ -164,7 +164,10 @@ fn Name::wildcard(self : Name) -> Result[Name, DnsError] {
 }
 
 ///|
-pub fn Name::signed_owner(self : Name, labels : Int) -> Result[Name, DnsError] {
+pub fn Name::signed_owner(
+  self : Name,
+  labels : Int32,
+) -> Result[Name, DnsError] {
   if labels < 0 || labels > self.labels.length() {
     return Err(Bogus("RRSIG labels exceed owner labels"))
   }
@@ -178,7 +181,7 @@ pub fn Name::signed_owner(self : Name, labels : Int) -> Result[Name, DnsError] {
 }
 
 ///|
-fn bytes_compare(a : Bytes, b : Bytes) -> Int {
+fn bytes_compare(a : Bytes, b : Bytes) -> Int32 {
   for i = 0; i < a.length() && i < b.length(); i = i + 1 {
     if a[i] < b[i] {
       return -1

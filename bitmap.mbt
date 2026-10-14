@@ -1,7 +1,7 @@
 ///|
 /// Strict RFC4034 window bitmap. Empty is allowed for NSEC3 empty nonterminals.
 pub struct TypeBitmap {
-  priv types : Array[Int]
+  priv types : Array[Int32]
 } derive(Eq, Debug)
 
 ///|
@@ -12,7 +12,7 @@ pub extend TypeBitmap with @debug.Debug::{to_repr}
 
 ///|
 pub fn TypeBitmap::parse(data : Bytes) -> Result[TypeBitmap, DnsError] {
-  let types : Array[Int] = []
+  let types : Array[Int32] = []
   let mut p = 0
   let mut previous = -1
   while p < data.length() {
@@ -45,12 +45,12 @@ pub fn TypeBitmap::parse(data : Bytes) -> Result[TypeBitmap, DnsError] {
 }
 
 ///|
-pub fn TypeBitmap::contains(self : TypeBitmap, rrtype : Int) -> Bool {
+pub fn TypeBitmap::contains(self : TypeBitmap, rrtype : Int32) -> Bool {
   self.types.contains(rrtype)
 }
 
 ///|
-pub fn TypeBitmap::types(self : TypeBitmap) -> Array[Int] {
+pub fn TypeBitmap::types(self : TypeBitmap) -> Array[Int32] {
   self.types.copy()
 }
 

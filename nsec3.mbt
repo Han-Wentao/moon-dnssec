@@ -3,7 +3,7 @@ pub struct Nsec3 {
   priv owner_hash : Bytes
   priv next_hash : Bytes
   priv salt : Bytes
-  priv iterations : Int
+  priv iterations : Int32
   priv opt_out : Bool
   priv bitmap : TypeBitmap
 } derive(Debug)
@@ -85,8 +85,8 @@ pub fn nsec3_nodata(
   proof : AuthenticatedSet,
   zone : Name,
   name : Name,
-  rrtype : Int,
-  now : UInt,
+  rrtype : Int32,
+  now : UInt32,
   limits : Limits,
 ) -> Result[Denial, DnsError] {
   match valid_query(zone, name, rrtype) {
