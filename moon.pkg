@@ -2,4 +2,7 @@ import {
   "moonbitlang/core/debug",
   "moonbitlang/core/encoding/base64",
   "geniuszby/moonzoneguard" @zone,
+  "moonbitstack/mooncrypt/sign/ed25519",
+  "moonbitstack/mooncrypt/sign/ecdsa",
+  "moonbitstack/mooncrypt/rsa",
 }
