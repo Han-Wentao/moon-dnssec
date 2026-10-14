@@ -32,3 +32,18 @@ test "NXDOMAIN needs closest encloser plus wildcard and next-closer denial" {
     is Err(Indeterminate(_)),
   )
 }
+
+///|
+test "NSEC ancestor traversal obeys configured depth before proof processing" {
+  let zone = Name::parse("example.").unwrap()
+  let query = Name::parse("a.b.example.").unwrap()
+  let apex = wb_nsec(zone, zone, b"\x00\x06\x02\x00\x00\x00\x00\x03", zone)
+  let limits = { ..Limits::default(), max_chain: 1, }
+  assert_true(
+    nsec_nxdomain([apex], zone, query, 110U, limits) is Err(ResourceLimit(_)),
+  )
+  assert_eq(
+    nsec_nxdomain([apex], zone, query, 110U, Limits::default()).unwrap().kind(),
+    NxDomain,
+  )
+}

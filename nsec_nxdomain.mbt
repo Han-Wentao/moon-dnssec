@@ -19,6 +19,9 @@ pub fn nsec_nxdomain(
   if name == zone {
     return Err(Bogus("zone apex exists"))
   }
+  if name.label_count() - zone.label_count() > limits.max_chain {
+    return Err(ResourceLimit("NSEC ancestor depth"))
+  }
   if proofs.is_empty() || proofs.length() > limits.max_proofs {
     return Err(ResourceLimit("NSEC proof count"))
   }
