@@ -1,14 +1,14 @@
 ///|
 pub struct Rrsig {
-  covered : Int
-  algorithm : Int
-  labels : Int
-  original_ttl : UInt
-  expiration : UInt
-  inception : UInt
-  key_tag : Int
-  signer : Name
-  signature : Bytes
+  priv covered : Int
+  priv algorithm : Int
+  priv labels : Int
+  priv original_ttl : UInt
+  priv expiration : UInt
+  priv inception : UInt
+  priv key_tag : Int
+  priv signer : Name
+  priv signature : Bytes
 } derive(Eq, Debug)
 
 ///|

@@ -13,8 +13,8 @@ pub extend DenialKind with @debug.Debug::{to_repr}
 
 ///|
 pub struct Denial {
-  kind : DenialKind
-  lifetime : UInt
+  priv kind : DenialKind
+  priv lifetime : UInt
 } derive(Debug)
 
 ///|
@@ -41,9 +41,9 @@ pub fn Denial::verdict(self : Denial) -> Verdict {
 
 ///|
 pub struct Nsec {
-  owner : Name
-  next : Name
-  bitmap : TypeBitmap
+  priv owner : Name
+  priv next : Name
+  priv bitmap : TypeBitmap
 } derive(Debug)
 
 ///|

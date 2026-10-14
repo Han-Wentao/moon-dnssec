@@ -1,7 +1,7 @@
 ///|
 /// Strict RFC4034 window bitmap. Empty is allowed for NSEC3 empty nonterminals.
 pub struct TypeBitmap {
-  types : Array[Int]
+  priv types : Array[Int]
 } derive(Eq, Debug)
 
 ///|

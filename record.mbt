@@ -1,10 +1,10 @@
 ///|
 /// A caller-supplied resource record, never a compressed DNS message fragment.
 pub struct Record {
-  owner : Name
-  rrtype : Int
-  ttl : UInt
-  data : Bytes
+  priv owner : Name
+  priv rrtype : Int
+  priv ttl : UInt
+  priv data : Bytes
 } derive(Eq, Debug)
 
 ///|

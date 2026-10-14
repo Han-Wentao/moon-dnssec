@@ -1,8 +1,8 @@
 ///|
 pub struct Dnskey {
-  flags : Int
-  algorithm : Int
-  data : Bytes
+  priv flags : Int
+  priv algorithm : Int
+  priv data : Bytes
 } derive(Eq, Debug)
 
 ///|
@@ -46,10 +46,10 @@ pub fn Dnskey::is_sep(self : Dnskey) -> Bool {
 
 ///|
 pub struct Ds {
-  key_tag : Int
-  algorithm : Int
-  digest_type : Int
-  digest : Bytes
+  priv key_tag : Int
+  priv algorithm : Int
+  priv digest_type : Int
+  priv digest : Bytes
 } derive(Eq, Debug)
 
 ///|

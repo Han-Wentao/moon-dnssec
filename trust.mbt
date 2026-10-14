@@ -1,11 +1,11 @@
 ///|
 /// DNSKEY set authenticated from an out-of-band key or signed parent DS.
 pub struct TrustedKeys {
-  zone : Name
-  keys : Array[Dnskey]
-  verified_at : UInt
-  lifetime : UInt
-  depth : Int
+  priv zone : Name
+  priv keys : Array[Dnskey]
+  priv verified_at : UInt
+  priv lifetime : UInt
+  priv depth : Int
 } derive(Debug)
 
 ///|

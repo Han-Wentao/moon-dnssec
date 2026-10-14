@@ -2,11 +2,11 @@
 /// Cryptographically authenticated under an explicitly trusted supplied key.
 /// Private fields prevent constructing an authenticated proof without verification.
 pub struct AuthenticatedSet {
-  records : Array[Record]
-  zone : Name
-  verified_at : UInt
-  lifetime : UInt
-  wildcard : Bool
+  priv records : Array[Record]
+  priv zone : Name
+  priv verified_at : UInt
+  priv lifetime : UInt
+  priv wildcard : Bool
 } derive(Debug)
 
 ///|

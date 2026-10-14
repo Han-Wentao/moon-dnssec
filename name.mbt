@@ -1,7 +1,7 @@
 ///|
 /// Canonical uncompressed name. Construction checks wire size and label size.
 pub struct Name {
-  labels : Array[Bytes]
+  priv labels : Array[Bytes]
 } derive(Eq, Debug)
 
 ///|

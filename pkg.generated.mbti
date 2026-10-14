@@ -38,11 +38,7 @@ pub fn verify_signature(Dnskey, Bytes, Bytes) -> Result[Bool, DnsError]
 
 // Types and methods
 pub struct AuthenticatedSet {
-  records : Array[Record]
-  zone : Name
-  verified_at : UInt
-  lifetime : UInt
-  wildcard : Bool
+  // private fields
 } derive(@debug.Debug)
 pub fn AuthenticatedSet::cache_records(Self, UInt) -> Result[Array[Record], DnsError]
 pub fn AuthenticatedSet::denial_record(Self, Name, Int, UInt) -> Result[Record, DnsError]
@@ -56,8 +52,7 @@ pub fn AuthenticatedSet::to_repr(Self) -> @debug.Repr
 pub fn AuthenticatedSet::zone(Self) -> Name
 
 pub struct Denial {
-  kind : DenialKind
-  lifetime : UInt
+  // private fields
 } derive(@debug.Debug)
 pub fn Denial::kind(Self) -> DenialKind
 pub fn Denial::lifetime(Self) -> UInt
@@ -87,9 +82,7 @@ pub fn DnsError::to_repr(Self) -> @debug.Repr
 pub fn DnsError::verdict(Self) -> Verdict
 
 pub struct Dnskey {
-  flags : Int
-  algorithm : Int
-  data : Bytes
+  // private fields
 } derive(Eq, @debug.Debug)
 pub fn Dnskey::algorithm(Self) -> Int
 pub fn Dnskey::equal(Self, Self) -> Bool
@@ -101,10 +94,7 @@ pub fn Dnskey::rdata(Self) -> Bytes
 pub fn Dnskey::to_repr(Self) -> @debug.Repr
 
 pub struct Ds {
-  key_tag : Int
-  algorithm : Int
-  digest_type : Int
-  digest : Bytes
+  // private fields
 } derive(Eq, @debug.Debug)
 pub fn Ds::digest_type(Self) -> Int
 pub fn Ds::equal(Self, Self) -> Bool
@@ -129,7 +119,7 @@ pub fn Limits::to_repr(Self) -> @debug.Repr
 pub fn Limits::validate(Self) -> Result[Unit, DnsError]
 
 pub struct Name {
-  labels : Array[Bytes]
+  // private fields
 } derive(Eq, @debug.Debug)
 pub fn Name::canonical_compare(Self, Self) -> Int
 pub fn Name::equal(Self, Self) -> Bool
@@ -145,31 +135,21 @@ pub fn Name::to_repr(Self) -> @debug.Repr
 pub fn Name::wire(Self) -> Bytes
 
 pub struct Nsec {
-  owner : Name
-  next : Name
-  bitmap : TypeBitmap
+  // private fields
 } derive(@debug.Debug)
 pub fn Nsec::covers(Self, Name) -> Bool
 pub fn Nsec::parse(Record) -> Result[Self, DnsError]
 pub fn Nsec::to_repr(Self) -> @debug.Repr
 
 pub struct Nsec3 {
-  owner_hash : Bytes
-  next_hash : Bytes
-  salt : Bytes
-  iterations : Int
-  opt_out : Bool
-  bitmap : TypeBitmap
+  // private fields
 } derive(@debug.Debug)
 pub fn Nsec3::covers_hash(Self, Bytes) -> Bool
 pub fn Nsec3::parse(Record, Name, Limits) -> Result[Self, DnsError]
 pub fn Nsec3::to_repr(Self) -> @debug.Repr
 
 pub struct Record {
-  owner : Name
-  rrtype : Int
-  ttl : UInt
-  data : Bytes
+  // private fields
 } derive(Eq, @debug.Debug)
 pub fn Record::canonical_rdata(Self) -> Result[Bytes, DnsError]
 pub fn Record::equal(Self, Self) -> Bool
@@ -182,15 +162,7 @@ pub fn Record::to_repr(Self) -> @debug.Repr
 pub fn Record::ttl(Self) -> UInt
 
 pub struct Rrsig {
-  covered : Int
-  algorithm : Int
-  labels : Int
-  original_ttl : UInt
-  expiration : UInt
-  inception : UInt
-  key_tag : Int
-  signer : Name
-  signature : Bytes
+  // private fields
 } derive(Eq, @debug.Debug)
 pub fn Rrsig::covered_type(Self) -> Int
 pub fn Rrsig::equal(Self, Self) -> Bool
@@ -212,11 +184,7 @@ pub fn TimePolicy::to_repr(Self) -> @debug.Repr
 pub fn TimePolicy::validate(Self) -> Result[Unit, DnsError]
 
 pub struct TrustedKeys {
-  zone : Name
-  keys : Array[Dnskey]
-  verified_at : UInt
-  lifetime : UInt
-  depth : Int
+  // private fields
 } derive(@debug.Debug)
 pub fn TrustedKeys::depth(Self) -> Int
 pub fn TrustedKeys::remaining(Self, UInt) -> Result[UInt, DnsError]
@@ -224,7 +192,7 @@ pub fn TrustedKeys::to_repr(Self) -> @debug.Repr
 pub fn TrustedKeys::zone(Self) -> Name
 
 pub struct TypeBitmap {
-  types : Array[Int]
+  // private fields
 } derive(Eq, @debug.Debug)
 pub fn TypeBitmap::contains(Self, Int) -> Bool
 pub fn TypeBitmap::encode(Self) -> Bytes

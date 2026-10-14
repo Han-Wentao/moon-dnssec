@@ -1,11 +1,11 @@
 ///|
 pub struct Nsec3 {
-  owner_hash : Bytes
-  next_hash : Bytes
-  salt : Bytes
-  iterations : Int
-  opt_out : Bool
-  bitmap : TypeBitmap
+  priv owner_hash : Bytes
+  priv next_hash : Bytes
+  priv salt : Bytes
+  priv iterations : Int
+  priv opt_out : Bool
+  priv bitmap : TypeBitmap
 } derive(Debug)
 
 ///|

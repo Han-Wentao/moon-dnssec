@@ -35,6 +35,9 @@ test "public consumer authenticates signed NSEC and rejects tampering before pro
     @dns.TimePolicy::at(150U),
     @dns.Limits::default(),
   ).unwrap()
+  let exported = set.records()
+  exported.clear()
+  assert_eq(set.records().length(), 1)
   let missing = @dns.Name::parse("missing.example.").unwrap()
   assert_eq(
     @dns.nsec_nxdomain([set], zone, missing, 160U, @dns.Limits::default())
